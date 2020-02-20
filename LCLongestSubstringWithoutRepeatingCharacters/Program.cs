@@ -7,30 +7,33 @@ namespace LCLongestSubstringWithoutRepeatingCharacters
     {
         static void Main(string[] args)
         {
-            string s = "pwwkew";
+            string s = "pppppppppppppppppwwkew";
 
-            HashSet<char> substringHash = new HashSet<char>();
+            HashSet<char> usedLetters = new HashSet<char>();
 
             int longestSubstring = 0;
 
-            for (int i = 0; i < s.Length; i++)
+            for (int startingLetter = 0; startingLetter < s.Length; startingLetter++)
             {
+                while (startingLetter < s.Length - 1 && s[startingLetter].Equals(s[startingLetter + 1])) startingLetter++;
+
                 int substringLength = 0;
 
-                for (int j = i; j < s.Length; j++)
+                if (longestSubstring > s.Length - startingLetter) Console.WriteLine(longestSubstring);
+
+                for (int newestLetter = startingLetter; newestLetter < s.Length; newestLetter++)
                 {
-                    if (substringHash.Contains(s[j]))
-                    {
-                        break;
-                    }
-                    substringHash.Add(s[j]);
+                    if (usedLetters.Contains(s[newestLetter])) break;
+
+                    usedLetters.Add(s[newestLetter]);
                     substringLength++;
                 }
                 if (substringLength > longestSubstring)
                 {
                     longestSubstring = substringLength;
                 }
-                substringHash.Clear();
+
+                usedLetters.Clear();
             }
 
             Console.WriteLine(longestSubstring);
